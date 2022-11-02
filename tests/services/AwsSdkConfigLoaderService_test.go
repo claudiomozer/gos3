@@ -11,6 +11,6 @@ func TestShouldLoadConfigWithCorrectUser(t *testing.T) {
 	_, err := sut.LoadAwsSdkConfig()
 
 	if err != nil {
-		t.Error("Should not return ")
+		t.Error("Should not return an error")
 	}
 }
