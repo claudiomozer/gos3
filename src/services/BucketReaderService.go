@@ -1,8 +1,10 @@
 package services
 
 import (
+	"context"
 	"errors"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
@@ -25,5 +27,11 @@ func (service *BucketReaderService) Read(bucketName string) error {
 		return errors.New("Bucket fornecido é inválido")
 	}
 
-	return nil
+	params := &s3.ListObjectsV2Input{
+		Bucket: aws.String(bucketName),
+	}
+
+	_, err := service.client.ListObjectsV2(context.Background(), params)
+
+	return err
 }
