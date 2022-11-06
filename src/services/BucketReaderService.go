@@ -20,5 +20,10 @@ func (service *BucketReaderService) Read(bucketName string) error {
 	if service.client == nil {
 		return errors.New("Cliente fornecido é inválido")
 	}
+
+	if bucketName == "" {
+		return errors.New("Bucket fornecido é inválido")
+	}
+
 	return nil
 }
