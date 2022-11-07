@@ -23,5 +23,9 @@ func (service *RemoveObjectsService) Remove(objects []types.Object) error {
 		return errors.New("Cliente fornecido é inválido")
 	}
 
+	if len(objects) == 0 {
+		return errors.New("Nenhum objeto fornecido para a remoção")
+	}
+
 	return nil
 }
