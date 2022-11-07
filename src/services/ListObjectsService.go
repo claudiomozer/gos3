@@ -9,17 +9,17 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 )
 
-type BucketReaderService struct {
+type ListObjectsService struct {
 	client *s3.Client
 }
 
-func NewBucketReaderService(client *s3.Client) *BucketReaderService {
-	return &BucketReaderService{
+func NewListObjectsService(client *s3.Client) *ListObjectsService {
+	return &ListObjectsService{
 		client: client,
 	}
 }
 
-func (service *BucketReaderService) Read(bucketName string) ([]types.Object, error) {
+func (service *ListObjectsService) Read(bucketName string) ([]types.Object, error) {
 	if service.client == nil {
 		return nil, errors.New("Cliente fornecido é inválido")
 	}

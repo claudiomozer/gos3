@@ -8,7 +8,7 @@ import (
 )
 
 func TestShouldReturnAnErrorIfInvalidClientIsProvided(t *testing.T) {
-	sut := services.NewBucketReaderService(nil)
+	sut := services.NewListObjectsService(nil)
 
 	_, err := sut.Read("")
 
@@ -18,7 +18,7 @@ func TestShouldReturnAnErrorIfInvalidClientIsProvided(t *testing.T) {
 }
 
 func TestShouldReturnAnErrorIfAnInvalidBucketIsGiven(t *testing.T) {
-	sut := services.NewBucketReaderService(&s3.Client{})
+	sut := services.NewListObjectsService(&s3.Client{})
 
 	_, err := sut.Read("")
 
@@ -28,7 +28,7 @@ func TestShouldReturnAnErrorIfAnInvalidBucketIsGiven(t *testing.T) {
 }
 
 func TestShouldReturnAnErrorIfClientReturnsError(t *testing.T) {
-	sut := services.NewBucketReaderService(&s3.Client{})
+	sut := services.NewListObjectsService(&s3.Client{})
 
 	_, err := sut.Read("teste")
 
@@ -41,7 +41,7 @@ func TestShouldReturnObjectsOnSuccess(t *testing.T) {
 	config, err := services.NewAwsSdkConfigLoaderService().LoadAwsSdkConfig()
 	if err == nil {
 		client := services.NewGetS3ClientService(config).Get()
-		sut := services.NewBucketReaderService(client)
+		sut := services.NewListObjectsService(client)
 
 		objects, err := sut.Read("datatracking-web")
 
