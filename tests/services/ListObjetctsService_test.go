@@ -7,8 +7,12 @@ import (
 	"github.com/claudiomozer/gos3/src/services"
 )
 
+func makeListObjectsSut(client *s3.Client) *services.ListObjectsService {
+	return services.NewListObjectsService(client)
+}
+
 func TestShouldReturnAnErrorIfInvalidClientIsProvided(t *testing.T) {
-	sut := services.NewListObjectsService(nil)
+	sut := makeListObjectsSut(nil)
 
 	_, err := sut.Read("")
 
@@ -18,7 +22,7 @@ func TestShouldReturnAnErrorIfInvalidClientIsProvided(t *testing.T) {
 }
 
 func TestShouldReturnAnErrorIfAnInvalidBucketIsGiven(t *testing.T) {
-	sut := services.NewListObjectsService(&s3.Client{})
+	sut := makeListObjectsSut(&s3.Client{})
 
 	_, err := sut.Read("")
 
@@ -28,7 +32,7 @@ func TestShouldReturnAnErrorIfAnInvalidBucketIsGiven(t *testing.T) {
 }
 
 func TestShouldReturnAnErrorIfClientReturnsError(t *testing.T) {
-	sut := services.NewListObjectsService(&s3.Client{})
+	sut := makeListObjectsSut(&s3.Client{})
 
 	_, err := sut.Read("teste")
 
@@ -41,7 +45,7 @@ func TestShouldReturnObjectsOnSuccess(t *testing.T) {
 	config, err := services.NewAwsSdkConfigLoaderService().LoadAwsSdkConfig()
 	if err == nil {
 		client := services.NewGetS3ClientService(config).Get()
-		sut := services.NewListObjectsService(client)
+		sut := makeListObjectsSut(client)
 
 		objects, err := sut.Read("datatracking-web")
 
