@@ -20,3 +20,13 @@ func TestShouldRemoveObjectsReturnAnErrorIfInvalidClientIsProvided(t *testing.T)
 		t.Errorf("Should return an error if invalid client is given")
 	}
 }
+
+func TestShouldRemoveObjectsReturnsErrorIfEmptyObjectsIsProvided(t *testing.T) {
+	sut := makeRemoveObjectsSut(&s3.Client{})
+
+	err := sut.Remove(nil)
+
+	if err == nil {
+		t.Errorf("Should return an error if invalid client is given")
+	}
+}
