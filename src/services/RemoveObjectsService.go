@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 )
@@ -18,7 +19,7 @@ func NewRemoveObjectsService(client *s3.Client) *RemoveObjectsService {
 	}
 }
 
-func (service *RemoveObjectsService) Remove(objects *[]types.Object) error {
+func (service *RemoveObjectsService) Remove(bucketName string, objects *[]types.Object) error {
 
 	if service.client == nil {
 		return errors.New("Cliente fornecido é inválido")
@@ -29,6 +30,7 @@ func (service *RemoveObjectsService) Remove(objects *[]types.Object) error {
 	}
 
 	input := &s3.DeleteObjectsInput{
+		Bucket: aws.String(bucketName),
 		Delete: &types.Delete{
 			Objects: getObjectsIdetifiers(objects),
 		},
