@@ -25,6 +25,10 @@ func (service *RemoveObjectsService) Remove(bucketName string, objects *[]types.
 		return errors.New("Cliente fornecido é inválido")
 	}
 
+	if bucketName == "" {
+		return errors.New("Nome do bucket é inválido")
+	}
+
 	if len(*objects) == 0 {
 		return errors.New("Nenhum objeto fornecido para a remoção")
 	}
