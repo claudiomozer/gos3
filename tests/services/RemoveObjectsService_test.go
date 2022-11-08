@@ -22,13 +22,23 @@ func TestShouldRemoveObjectsReturnAnErrorIfInvalidClientIsProvided(t *testing.T)
 	}
 }
 
-func TestShouldRemoveObjectsReturnsErrorIfEmptyObjectsIsProvided(t *testing.T) {
+func TestShouldRemoveObjectsReturnsErrorIfEmptyBucketNameIsProvided(t *testing.T) {
+	sut := makeRemoveObjectsSut(&s3.Client{})
+
+	err := sut.Remove("", &[]types.Object{{}})
+
+	if err == nil {
+		t.Errorf("Should return an error if empty bucket name is given")
+	}
+}
+
+func TestShouldRemoveObjectsReturnsErrorIfEmptyObjectsAreProvided(t *testing.T) {
 	sut := makeRemoveObjectsSut(&s3.Client{})
 
 	err := sut.Remove("teste", nil)
 
 	if err == nil {
-		t.Errorf("Should return an error if invalid client is given")
+		t.Errorf("Should return an error if invalid objects are given")
 	}
 }
 
