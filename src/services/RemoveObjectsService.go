@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"errors"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
@@ -17,15 +18,36 @@ func NewRemoveObjectsService(client *s3.Client) *RemoveObjectsService {
 	}
 }
 
-func (service *RemoveObjectsService) Remove(objects []types.Object) error {
+func (service *RemoveObjectsService) Remove(objects *[]types.Object) error {
 
 	if service.client == nil {
 		return errors.New("Cliente fornecido é inválido")
 	}
 
-	if len(objects) == 0 {
+	if len(*objects) == 0 {
 		return errors.New("Nenhum objeto fornecido para a remoção")
 	}
 
+	input := &s3.DeleteObjectsInput{
+		Delete: &types.Delete{
+			Objects: getObjectsIdetifiers(objects),
+		},
+	}
+
+	_, err := service.client.DeleteObjects(context.Background(), input)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
+}
+
+func getObjectsIdetifiers(objects *[]types.Object) []types.ObjectIdentifier {
+	identifiers := []types.ObjectIdentifier{}
+
+	for _, object := range *objects {
+		identifiers = append(identifiers, types.ObjectIdentifier{Key: object.Key})
+	}
+	return identifiers
 }
