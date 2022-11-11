@@ -7,7 +7,7 @@ import (
 )
 
 func TestShouldReturnAnErrorIfAnInvalidIsGiven(t *testing.T) {
-	sut := services.NewScanFilesService()
+	sut := services.NewScanDirectoryService()
 	_, err := sut.Scan("")
 
 	if err == nil {
