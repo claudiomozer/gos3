@@ -1,6 +1,10 @@
 package services
 
-import "errors"
+import (
+	"errors"
+	"io/fs"
+	"io/ioutil"
+)
 
 type ScanDirectoryServices struct {
 }
@@ -9,10 +13,10 @@ func NewScanDirectoryService() *ScanDirectoryServices {
 	return &ScanDirectoryServices{}
 }
 
-func (service *ScanDirectoryServices) Scan(path string) ([]string, error) {
+func (service *ScanDirectoryServices) Scan(path string) ([]fs.FileInfo, error) {
 	if path == "" {
-		return []string{}, errors.New("Um caminho válido deve ser informado")
+		return []fs.FileInfo{}, errors.New("Um caminho válido deve ser informado")
 	}
 
-	return []string{}, nil
+	return ioutil.ReadDir(path)
 }
